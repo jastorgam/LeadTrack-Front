@@ -1,0 +1,56 @@
+<!-- <p-toast /> -->
+
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+
+    <div class="flex justify-center mb-4">
+      <img src="img/logo_lead.png" width="200" />
+    </div>
+
+    <h2 class="text-4xl font-bold mb-6 text-center text-gray-800"><span style="color: #135296;">Lead</span>Track</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Campo de correo electrónico -->
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+        <p-inputGroup>
+          <p-inputGroupAddon>
+            <i class="pi pi-envelope"></i>
+          </p-inputGroupAddon>
+          <input type="email" id="email" pInputText formControlName="email" placeholder="Ingresa tu correo"
+            class="w-full"
+            [ngClass]="{ 'ng-invalid ng-dirty': loginForm.get('email')?.invalid && loginForm.get('email')?.touched }" />
+        </p-inputGroup>
+        <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="p-error">
+          <span *ngIf="loginForm.get('email')?.errors?.['required']">El correo es obligatorio.</span>
+          <span *ngIf="loginForm.get('email')?.errors?.['email']">El correo no es válido.</span>
+        </small>
+      </div>
+
+      <!-- Campo de contraseña -->
+      <div class="mb-6">
+        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+        <p-inputGroup>
+          <p-inputGroupAddon>
+            <i class="pi pi-lock"></i>
+          </p-inputGroupAddon>
+          <input type="password" id="password" pInputText formControlName="password" placeholder="Ingresa tu contraseña"
+            class="w-full"
+            [ngClass]="{ 'ng-invalid ng-dirty': loginForm.get('password')?.invalid && loginForm.get('password')?.touched }" />
+        </p-inputGroup>
+        <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="p-error">
+          <span *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</span>
+          <span *ngIf="loginForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6
+            caracteres.</span>
+        </small>
+      </div>
+      <div class="mb-5">
+        <p-message *ngIf="errorMsg" severity="error">{{ errorMsg }}</p-message>
+      </div>
+      <!-- Botón de inicio de sesión -->
+      <button type="submit" pButton label="Iniciar Sesión" class="w-full" [disabled]="loginForm.invalid"></button>
+    </form>
+    <div class="mt-4 text-center">
+      <a href="#" class="text-sm text-blue-600 hover:underline">¿Olvidaste tu contraseña?</a>
+    </div>
+  </div>
+</div>
