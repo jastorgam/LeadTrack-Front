@@ -1,3 +1,4 @@
+import { AuthGuard } from './guards/auth.guard';
 import { LoginLayoutComponent } from './layouts/login-layout/login-layout.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { AdminComponent } from './pages/admin/admin.component';
@@ -5,9 +6,14 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { ExecutiveComponent } from './pages/executive/executive.component';
 import { LoginComponent } from './pages/login/login.component';
 import { Routes } from '@angular/router';
+import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
+import { NotLoggedComponent } from './pages/not-logged/not-logged.component';
+import { ReportComponent } from './pages/report/report.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'unauthorized', component: UnauthorizedComponent },
+  { path: 'notloggedin', component: NotLoggedComponent },
   {
     path: '',
     component: LoginLayoutComponent,
@@ -17,9 +23,30 @@ export const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      { path: 'executive', component: ExecutiveComponent },
-      { path: 'admin', component: AdminComponent },
-      { path: 'contact', component: ContactComponent },
+      {
+        path: 'executive',
+        component: ExecutiveComponent,
+        canActivate: [AuthGuard],
+        data: { role: 'executive' },
+      },
+      {
+        path: 'carga',
+        component: AdminComponent,
+        canActivate: [AuthGuard],
+        data: { role: 'admin' },
+      },
+      {
+        path: 'report',
+        component: ReportComponent,
+        canActivate: [AuthGuard],
+        data: { role: 'admin' },
+      },
+      {
+        path: 'contact',
+        component: ContactComponent,
+        canActivate: [AuthGuard],
+        data: { role: 'executive' },
+      },
     ],
   },
 ];

@@ -1,6 +1,60 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Página Executive</h2>
-    <p class="text-center text-gray-700">Bienvenido a la página executive.</p>
+<p-toast></p-toast>
+
+<div class="min-h-screen bg-gray-100 p-8">
+  <div class="bg-white p-8 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Página Ejecutivo</h2>
+
+    <!-- Tabla de PrimeNG con filtros y ordenamiento -->
+    <p-table #dt [value]="prospects" [paginator]="true" [rows]="10" [responsive]="true" dataKey="id"
+      [globalFilterFields]="['name', 'lastName', 'position', 'company.name', 'company.size', 'company.description']"
+      [loading]="loading">
+
+      <ng-template #caption>
+        <div class="flex">
+          <p-button label="Clear" [outlined]="false" icon="pi pi-filter-slash" (click)="clear(dt)" class="text-sm" />
+          <p-iconfield iconPosition="left" class="ml-auto">
+            <p-inputicon>
+              <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input pInputText type="text" [(ngModel)]="searchValue"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword"
+              class="text-sm" />
+            <p-inputicon>
+              <i class="pi pi-times" (click)="clear(dt)" className="cursor-pointer"></i>
+            </p-inputicon>
+          </p-iconfield>
+        </div>
+      </ng-template>
+
+      <ng-template #header>
+        <tr>
+          <th pSortableColumn="fullName">Nombre Completo <p-sortIcon field="fullName" /></th>
+          <th pSortableColumn="company.name">Empresa <p-sortIcon field="company.name" /></th>
+          <th pSortableColumn="lastInteraction.date">Últmo contacto <p-sortIcon field="lastInteraction.date" /></th>
+          <th pSortableColumn="lastInteraction.notes">Notas<p-sortIcon field="company.description" /> </th>
+          <th pSortableColumn="lastInteraction.answer">Contactado<p-sortIcon field="lastInteraction.answer" /> </th>
+        </tr>
+        <tr>
+          <th> <p-columnFilter class="text-xs" type="text" field="fullName" /></th>
+          <th> <p-columnFilter class="text-sm" type="text" field="company.name" /></th>
+          <th>
+            <!-- <p-columnFilter class="text-sm" type="text" field="lastInteraction.date" /> -->
+          </th>
+          <th> <p-columnFilter class="text-sm" type="text" field="lastInteraction.notes" /></th>
+          <th> <p-columnFilter class="text-xs" type="boolean" field="lastInteraction.answer" /></th>
+        </tr>
+      </ng-template>
+
+      <ng-template #body let-prospect>
+        <tr>
+          <td>{{ prospect.fullName }}</td>
+          <td>{{ prospect.company.name }}</td>
+          <td class="text-center">{{ prospect.lastInteraction.date | date:" dd-MM-yyyy HH:mm" }}</td>
+          <td>{{ prospect.lastInteraction.notes }}</td>
+          <!-- <td>{{ prospect.status }}</td> -->
+          <td class="text-center"><p-checkbox [(ngModel)]="prospect.status" [binary]="true"></p-checkbox></td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
 </div>

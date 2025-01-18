@@ -3,6 +3,7 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import Aura from '@primeng/themes/aura';
+import Nora from '@primeng/themes/nora';
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
@@ -17,10 +18,13 @@ export const appConfig: ApplicationConfig = {
     providePrimeNG({
       ripple: true,
       theme: {
-        preset: Aura,
+        preset: Nora,
+        options: {
+          darkModeSelector: true || 'none',
+        },
       },
     }),
     MessageService,
-    // AuthService,
+    AuthService,
   ],
 };

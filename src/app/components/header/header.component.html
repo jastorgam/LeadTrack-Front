@@ -8,23 +8,31 @@
   </div>
   <nav>
     <ul class="flex space-x-4">
-      <li>
-        <a class="hover:underline" href="#">
+      <li *ngIf="role == 'admin'">
+        <a class="cursor-pointer" [routerLink]="'/report'">
+          Reportes
+        </a>
+      </li>
+      <li *ngIf="role == 'admin'">
+        <a class="cursor-pointer" [routerLink]="'/carga'">
+          Carga
+        </a>
+      </li>
+
+
+      <li *ngIf="role != 'admin'">
+        <a class="cursor-pointer" [routerLink]="'executive'">
           Inicio
         </a>
       </li>
-      <!-- <li>
-        <a class="hover:underline" href="#">
-          Servicios
-        </a>
-      </li>
+      <!--
+        <li>
+          <a class="hover:underline" href="#">
+            Nosotros
+          </a>
+        </li> -->
       <li>
-        <a class="hover:underline" href="#">
-          Nosotros
-        </a>
-      </li> -->
-      <li>
-        <a class="hover:underline" href="#">
+        <a class="cursor-pointer" (click)="logout()">
           Salir
         </a>
       </li>

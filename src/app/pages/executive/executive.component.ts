@@ -1,11 +1,62 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Table, TableModule } from 'primeng/table';
+import { Prospect } from '../../models/api-response';
+import { LeadService } from '../../services/lead.service';
+import { MessageModule } from 'primeng/message';
+import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-executive',
-  imports: [],
+  imports: [
+    TableModule,
+    MessageModule,
+    ToastModule,
+    InputTextModule,
+    ButtonModule,
+    IconFieldModule,
+    InputIconModule,
+    FormsModule,
+    DatePipe,
+    CheckboxModule,
+  ],
   templateUrl: './executive.component.html',
-  styleUrl: './executive.component.scss'
+  styleUrls: ['./executive.component.scss'],
 })
-export class ExecutiveComponent {
+export class ExecutiveComponent implements OnInit {
+  searchValue: string | undefined;
+  prospects: Prospect[] = [];
+  loading: boolean = true;
 
+  constructor(private leadService: LeadService) {}
+
+  clear(table: Table) {
+    table.clear();
+    this.searchValue = '';
+  }
+
+  ngOnInit(): void {
+    this.fetchProspects();
+  }
+
+  fetchProspects(): void {
+    this.leadService.getProspects().subscribe({
+      next: (data) => {
+        this.prospects = data;
+      },
+      error: (error) => {
+        console.error('Error fetching prospects:', error);
+      },
+      complete: () => {
+        this.loading = false;
+        console.log('Prospect data fetching complete.'); // Opcional
+      },
+    });
+  }
 }

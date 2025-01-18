@@ -1,5 +1,5 @@
 import { environment } from './../../../environments/environment';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -33,20 +33,27 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMsg!: String;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private loginService: AuthService,
+    private authService: AuthService,
     private messageService: MessageService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+  }
+  ngOnInit(): void {
+    // Initialize any necessary data or state here
+    if (!environment.production) {
+      console.log('LoginComponent initialized');
+    }
+    this.authService.logout();
   }
 
   onSubmit() {
@@ -60,9 +67,10 @@ export class LoginComponent {
       });
     }
 
-    console.log('Formulario válido', this.loginForm.value);
+    if (!environment.production)
+      console.log('Formulario válido', this.loginForm.value);
 
-    this.loginService
+    this.authService
       .login(
         this.loginForm.get('email')?.value,
         this.loginForm.get('password')?.value
@@ -71,7 +79,8 @@ export class LoginComponent {
         next: (redirect) => {
           if (!environment.production)
             console.log(`redirecto: ${redirect.role}`);
-          this.router.navigate([redirect.role]);
+          if (redirect.role == 'admin') this.router.navigate(['report']);
+          else this.router.navigate(['executive']);
         },
         error: (error) => {
           this.errorMsg = 'Usuario o password incorrectas';
