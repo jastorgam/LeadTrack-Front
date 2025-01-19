@@ -5,9 +5,10 @@
     <h2 class="text-2xl font-bold mb-6 text-gray-800">Página Ejecutivo</h2>
 
     <!-- Tabla de PrimeNG con filtros y ordenamiento -->
-    <p-table #dt [value]="prospects" [paginator]="true" [rows]="10" [responsive]="true" dataKey="id"
+    <p-table #dt [value]="prospects" [paginator]="true" [rows]="pageSize" [responsive]="true" dataKey="id"
+      [totalRecords]="totalRecords" [lazy]="true"
       [globalFilterFields]="['name', 'lastName', 'position', 'company.name', 'company.size', 'company.description']"
-      [loading]="loading">
+      [loading]="loading" (onLazyLoad)="onLazyLoad($event)" [responsive]="true">
 
       <ng-template #caption>
         <div class="flex">
@@ -49,8 +50,8 @@
         <tr>
           <td>{{ prospect.fullName }}</td>
           <td>{{ prospect.company.name }}</td>
-          <td class="text-center">{{ prospect.lastInteraction.date | date:" dd-MM-yyyy HH:mm" }}</td>
-          <td>{{ prospect.lastInteraction.notes }}</td>
+          <td class="text-center">{{ prospect.lastInteraction?.date | date:" dd-MM-yyyy HH:mm" }}</td>
+          <td>{{ prospect.lastInteraction?.notes }}</td>
           <!-- <td>{{ prospect.status }}</td> -->
           <td class="text-center"><p-checkbox [(ngModel)]="prospect.status" [binary]="true"></p-checkbox></td>
         </tr>

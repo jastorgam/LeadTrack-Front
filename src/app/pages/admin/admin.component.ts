@@ -38,14 +38,12 @@ export class AdminComponent {
     if (this.selectedFile) {
       this.loading = true;
       this.leadService.uploadFile(this.selectedFile).subscribe({
-        next: (event: any) => {
-          // if (event.status === 'progress') {
-          //   this.uploadProgress = event.percentage;
-          // } else if (event.status === 'success') {
-          //   this.uploadStatus = 'Archivo cargado con éxito!';
-          // }
+        next: (event: []) => {
+          console.log('status', event);
+          this.uploadStatus = `Se cargaron ${event.length} prospectos`;
         },
         error: (err) => {
+          this.loading = false;
           this.uploadStatus = 'Error al cargar el archivo.';
           console.error(err);
         },

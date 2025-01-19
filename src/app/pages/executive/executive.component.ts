@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Table, TableModule } from 'primeng/table';
+import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { Prospect } from '../../models/api-response';
 import { LeadService } from '../../services/lead.service';
 import { MessageModule } from 'primeng/message';
@@ -11,6 +11,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { CheckboxModule } from 'primeng/checkbox';
+import { LazyLoadEvent } from 'primeng/api';
 
 @Component({
   selector: 'app-executive',
@@ -33,6 +34,8 @@ export class ExecutiveComponent implements OnInit {
   searchValue: string | undefined;
   prospects: Prospect[] = [];
   loading: boolean = true;
+  pageSize: number = 10;
+  totalRecords: number = 0;
 
   constructor(private leadService: LeadService) {}
 
@@ -42,15 +45,25 @@ export class ExecutiveComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchProspects();
+    this.leadService.getProspectsCount().subscribe({
+      next: (data: number) => {
+        this.totalRecords = data;
+        this.fetchProspects(1, this.pageSize);
+      },
+      complete: () => {
+        this.loading = false;
+      },
+    });
   }
 
-  fetchProspects(): void {
-    this.leadService.getProspects().subscribe({
+  fetchProspects(page: number, pageSize: number): void {
+    this.loading = true;
+    this.leadService.getProspects(page, pageSize).subscribe({
       next: (data) => {
         this.prospects = data;
       },
       error: (error) => {
+        this.loading = false;
         console.error('Error fetching prospects:', error);
       },
       complete: () => {
@@ -58,5 +71,10 @@ export class ExecutiveComponent implements OnInit {
         console.log('Prospect data fetching complete.'); // Opcional
       },
     });
+  }
+
+  onLazyLoad(event: TableLazyLoadEvent): void {
+    const page = event.first! / event.rows! + 1;
+    this.fetchProspects(page, event.rows!);
   }
 }

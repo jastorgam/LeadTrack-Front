@@ -1,31 +1,40 @@
 <p-toast></p-toast>
-<div class="min-h-screen bg-gray-100 p-8">
-  <div class="bg-white p-8 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Subir Archivo</h2>
-    <p class="text-center text-gray-700 mb-6">Selecciona un archivo para cargar en la plataforma.</p>
+<div class="flex">
+  <div class="flex-none w-14"> </div>
+  <div class="flex-none w-14"> </div>
+  <div class="flex-none w-14"> </div>
 
-    <div class="mb-4 w-full">
-      <p-fileUpload name="file" mode="basic" [auto]="false" chooseLabel="Elegir Archivo" uploadLabel="Subir"
-        cancelLabel="Cancelar" class="w-full" [ngStyle]="{'width': '100%'}"
-        (onSelect)="onFileSelect($event)"></p-fileUpload>
-    </div>
+  <div class="min-h-screen bg-gray-100 p-8 grow">
+    <div class="bg-white p-8 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Subir Archivo</h2>
+      <p class="text-center text-gray-700 mb-6">Selecciona un archivo para cargar en la plataforma.</p>
 
-    <div class="flex justify-center border-top-2">
-      <button pButton label="Confirmar" icon="pi pi-check" class="p-button-success w-full" (click)="onUpload()"
-        [disabled]="loading">
-      </button>
-    </div>
+      <div class="mb-4 w-full">
+        <p-fileUpload name="file" mode="basic" [auto]="false" chooseLabel="Elegir Archivo" uploadLabel="Subir"
+          cancelLabel="Cancelar" class="w-full" [ngStyle]="{'width': '100%'}"
+          (onSelect)="onFileSelect($event)"></p-fileUpload>
+      </div>
 
-    <div class="w-full text-center">
-      <p-progress-spinner *ngIf="loading" ariaLabel="loading" />
-    </div>
+      <div class="flex justify-center border-top-2">
+        <button pButton label="Confirmar" icon="pi pi-check" class="p-button-success w-full" (click)="onUpload()"
+          [disabled]="loading">
+        </button>
+      </div>
+
+      <div class="w-full text-center">
+        <p-progress-spinner *ngIf="loading" ariaLabel="loading" />
+      </div>
 
 
-    <div *ngIf="uploadProgress > 0" class="mt-4 text-gray-700">
-      <p>{{uploadProgress}}% Cargado</p>
-    </div>
-    <div *ngIf="uploadStatus" class="mt-4 text-center text-gray-700">
-      <p>{{ uploadStatus }}</p>
+      <div *ngIf="uploadProgress > 0" class="mt-4 text-gray-700">
+        <p>{{uploadProgress}}% Cargado</p>
+      </div>
+      <div *ngIf="uploadStatus" class="mt-4 text-center text-gray-700">
+        <p>{{ uploadStatus }}</p>
+      </div>
     </div>
   </div>
+  <div class="flex-none w-14"> </div>
+  <div class="flex-none w-14"> </div>
+  <div class="flex-none w-14"> </div>
 </div>

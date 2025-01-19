@@ -11,16 +11,16 @@ import Aura from '@primeng/themes/aura';
 })
 export class AppComponent {
   constructor(private primeng: PrimeNG) {
-    this.primeng.theme.set({
-      preset: Aura,
-      options: {
-        darkModeSelector: true || 'none',
-        cssLayer: {
-          name: 'primeng',
-          order: 'tailwind-base, primeng, tailwind-utilities',
-        },
-      },
-    });
+    // this.primeng.theme.set({
+    //   preset: Aura,
+    //   options: {
+    //     darkModeSelector: false || 'none',
+    //     cssLayer: {
+    //       name: 'primeng',
+    //       order: 'tailwind-base, primeng, tailwind-utilities',
+    //     },
+    //   },
+    // });
   }
 
   title = 'leadtrack-front';
