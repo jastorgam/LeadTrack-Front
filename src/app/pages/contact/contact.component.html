@@ -1,6 +1,91 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Página Contact</h2>
-    <p class="text-center text-gray-700">Bienvenido a la página Contact.</p>
+<div class="flex flex-wrap p-4">
+  <!-- Sección 1 -->
+  <div class="w-full md:w-1/2 p-2">
+    <form [formGroup]="seccion1Form" (ngSubmit)="guardarSeccion1()" class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-bold mb-4">Información Personal</h2>
+      <div class="mb-4">
+        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+        <input id="nombre" formControlName="nombre" pInputText class="w-full p-2 border rounded">
+        <small *ngIf="seccion1Form.get('nombre')?.invalid && seccion1Form.get('nombre')?.touched" class="text-red-500">
+          Nombre es requerido
+        </small>
+      </div>
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input id="email" formControlName="email" pInputText class="w-full p-2 border rounded">
+        <small *ngIf="seccion1Form.get('email')?.invalid && seccion1Form.get('email')?.touched" class="text-red-500">
+          Email es requerido y debe ser válido
+        </small>
+      </div>
+      <div class="mb-4">
+        <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+        <input id="telefono" formControlName="telefono" pInputText class="w-full p-2 border rounded">
+        <small *ngIf="seccion1Form.get('telefono')?.invalid && seccion1Form.get('telefono')?.touched"
+          class="text-red-500">
+          Teléfono es requerido
+        </small>
+      </div>
+      <div class="mb-4">
+        <label for="empresa" class="block text-sm font-medium text-gray-700">Empresa</label>
+        <input id="empresa" formControlName="empresa" pInputText class="w-full p-2 border rounded">
+        <small *ngIf="seccion1Form.get('empresa')?.invalid && seccion1Form.get('empresa')?.touched"
+          class="text-red-500">
+          Empresa es requerida
+        </small>
+      </div>
+      <div class="mb-4">
+        <label for="cargo" class="block text-sm font-medium text-gray-700">Cargo</label>
+        <input id="cargo" formControlName="cargo" pInputText class="w-full p-2 border rounded">
+        <small *ngIf="seccion1Form.get('cargo')?.invalid && seccion1Form.get('cargo')?.touched" class="text-red-500">
+          Cargo es requerido
+        </small>
+      </div>
+      <div class="mb-4">
+        <label for="linkedin" class="block text-sm font-medium text-gray-700">LinkedIn</label>
+        <input id="linkedin" formControlName="linkedin" pInputText class="w-full p-2 border rounded">
+      </div>
+      <div class="mb-4">
+        <label for="tamanoEmpresa" class="block text-sm font-medium text-gray-700">Tamaño de Empresa</label>
+        <input id="tamanoEmpresa" formControlName="tamanoEmpresa" pInputText class="w-full p-2 border rounded">
+        <small *ngIf="seccion1Form.get('tamanoEmpresa')?.invalid && seccion1Form.get('tamanoEmpresa')?.touched"
+          class="text-red-500">
+          Tamaño de empresa es requerido
+        </small>
+      </div>
+      <button type="submit" pButton label="Guardar" class="w-full bg-blue-500 text-white p-2 rounded"></button>
+    </form>
+  </div>
+
+  <!-- Sección 2 -->
+  <div class="w-full md:w-1/2 p-2">
+    <form [formGroup]="seccion2Form" (ngSubmit)="guardarSeccion2()" class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-bold mb-4">Historial de Contacto</h2>
+      <div class="mb-4">
+        <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha</label>
+        <p-calendar id="fecha" formControlName="fecha" [showIcon]="true" class="w-full"></p-calendar>
+        <small *ngIf="seccion2Form.get('fecha')?.invalid && seccion2Form.get('fecha')?.touched" class="text-red-500">
+          Fecha es requerida
+        </small>
+      </div>
+      <div class="mb-4">
+        <label for="tipoContacto" class="block text-sm font-medium text-gray-700">Tipo de Contacto</label>
+        <p-dropdown id="tipoContacto" formControlName="tipoContacto" [options]="['Email', 'Teléfono']"
+          class="w-full"></p-dropdown>
+        <small *ngIf="seccion2Form.get('tipoContacto')?.invalid && seccion2Form.get('tipoContacto')?.touched"
+          class="text-red-500">
+          Tipo de contacto es requerido
+        </small>
+      </div>
+      <div class="mb-4">
+        <label for="notas" class="block text-sm font-medium text-gray-700">Notas</label>
+        <textarea id="notas" formControlName="notas" pInputTextarea class="w-full p-2 border rounded"></textarea>
+      </div>
+      <div class="mb-4">
+        <p-checkbox id="contesto" formControlName="contesto" label="Contestó">Contestó?</p-checkbox>
+      </div>
+      <button type="submit" pButton label="Guardar" class="w-full bg-blue-500 text-white p-2 rounded"></button>
+      <button type="button" pButton label="Limpiar" (click)="limpiarSeccion2()"
+        class="w-full bg-gray-500 text-white p-2 rounded mt-2"></button>
+    </form>
   </div>
 </div>

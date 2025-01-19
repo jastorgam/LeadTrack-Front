@@ -5,10 +5,10 @@
     <h2 class="text-2xl font-bold mb-6 text-gray-800">Página Ejecutivo</h2>
 
     <!-- Tabla de PrimeNG con filtros y ordenamiento -->
-    <p-table #dt [value]="prospects" [paginator]="true" [rows]="pageSize" [responsive]="true" dataKey="id"
-      [totalRecords]="totalRecords" [lazy]="true"
-      [globalFilterFields]="['name', 'lastName', 'position', 'company.name', 'company.size', 'company.description']"
-      [loading]="loading" (onLazyLoad)="onLazyLoad($event)" [responsive]="true">
+    <p-table #dt [value]="prospects" [paginator]="true" [rows]="10" dataKey="id"
+      [globalFilterFields]="['fullName', 'company.name', 'lastInteraction.date', 'lastInteraction.notes', 'lastInteraction.answer']"
+      [loading]="loading" [responsive]="true" [(selection)]="selectedRow" selectionMode="single"
+      (onRowSelect)="onRowSelect($event)">
 
       <ng-template #caption>
         <div class="flex">
@@ -47,7 +47,7 @@
       </ng-template>
 
       <ng-template #body let-prospect>
-        <tr>
+        <tr [pSelectableRow]="prospect">
           <td>{{ prospect.fullName }}</td>
           <td>{{ prospect.company.name }}</td>
           <td class="text-center">{{ prospect.lastInteraction?.date | date:" dd-MM-yyyy HH:mm" }}</td>

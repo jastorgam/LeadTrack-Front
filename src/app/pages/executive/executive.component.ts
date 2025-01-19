@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { CheckboxModule } from 'primeng/checkbox';
 import { LazyLoadEvent } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-executive',
@@ -36,8 +37,11 @@ export class ExecutiveComponent implements OnInit {
   loading: boolean = true;
   pageSize: number = 10;
   totalRecords: number = 0;
+  selectedRow!: Prospect;
 
-  constructor(private leadService: LeadService) {}
+  constructor(private leadService: LeadService, private router: Router) {
+    this.loading = true;
+  }
 
   clear(table: Table) {
     table.clear();
@@ -76,5 +80,10 @@ export class ExecutiveComponent implements OnInit {
   onLazyLoad(event: TableLazyLoadEvent): void {
     const page = event.first! / event.rows! + 1;
     this.fetchProspects(page, event.rows!);
+  }
+
+  onRowSelect(event: any): void {
+    console.log('Fila seleccionada:', event.data);
+    this.router.navigate(['contact'], { state: { data: event.data } });
   }
 }
