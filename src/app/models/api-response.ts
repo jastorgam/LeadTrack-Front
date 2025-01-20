@@ -5,21 +5,23 @@ export interface LoginResponse {
 }
 
 export interface Prospect {
-  fullName: string;
+  lastInteraction: Interaction | null;
   id: string;
   name: string;
   lastName: string;
+  fullName: string;
   position: string;
-  phones: Phone[];
+  phones: Phones[];
   emails: Email[];
   socialNetworks: SocialNetwork[];
+  interactions: Interaction[];
   company: Company;
-  lastInteraction: LastInteraction;
   status: boolean;
+  dateModify: Date;
+  userModify: string;
 }
 
 export interface Company {
-  id: string;
   name: string;
   address: string;
   domain: string;
@@ -34,17 +36,7 @@ export interface Email {
   valid: boolean;
 }
 
-export interface LastInteraction {
-  id: string;
-  prospectId: string;
-  userName: null;
-  type: string;
-  notes: string;
-  answer: boolean;
-  date: Date;
-}
-
-export interface Phone {
+export interface Phones {
   phoneNumber: string;
   type: string;
   valid: boolean;
@@ -53,4 +45,12 @@ export interface Phone {
 export interface SocialNetwork {
   type: string;
   url: string;
+}
+
+export interface Interaction {
+  userName: string;
+  type: string;
+  notes: string;
+  answer: boolean;
+  date: Date;
 }

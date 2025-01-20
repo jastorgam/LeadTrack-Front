@@ -8,7 +8,8 @@
     <p-table #dt [value]="prospects" [paginator]="true" [rows]="10" dataKey="id"
       [globalFilterFields]="['fullName', 'company.name', 'lastInteraction.date', 'lastInteraction.notes', 'lastInteraction.answer']"
       [loading]="loading" [responsive]="true" [(selection)]="selectedRow" selectionMode="single"
-      (onRowSelect)="onRowSelect($event)">
+      [showCurrentPageReport]="true" (onRowSelect)="onRowSelect($event)"
+      currentPageReportTemplate="{first} de {last} total {totalRecords}" [showCurrentPageReport]="true">
 
       <ng-template #caption>
         <div class="flex">
