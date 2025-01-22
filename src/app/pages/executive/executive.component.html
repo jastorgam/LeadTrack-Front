@@ -42,8 +42,12 @@
           <th>
             <!-- <p-columnFilter class="text-sm" type="text" field="lastInteraction.date" /> -->
           </th>
-          <th> <p-columnFilter class="text-sm" type="text" field="lastInteraction.notes" /></th>
-          <th> <p-columnFilter class="text-xs" type="boolean" field="lastInteraction.answer" /></th>
+          <th>
+            <!-- <p-columnFilter class="text-sm" type="text" field="lastInteraction.notes" /> -->
+          </th>
+          <th>
+            <!-- <p-columnFilter class="text-xs" type="boolean" field="lastInteraction.answer" /> -->
+          </th>
         </tr>
       </ng-template>
 
@@ -54,7 +58,9 @@
           <td class="text-center">{{ prospect.lastInteraction?.date | date:" dd-MM-yyyy HH:mm" }}</td>
           <td>{{ prospect.lastInteraction?.notes }}</td>
           <!-- <td>{{ prospect.status }}</td> -->
-          <td class="text-center"><p-checkbox [(ngModel)]="prospect.status" [binary]="true"></p-checkbox></td>
+          <!-- <td class="text-center"><p-checkbox [(ngModel)]="prospect.status" [binary]="true"></p-checkbox></td> -->
+          <td class="text-center">{{prospect.lastInteraction != undefined ? (prospect.lastInteraction.answer ?
+            "Respondio" : "Pendiente") : ""}}</td>
         </tr>
       </ng-template>
     </p-table>

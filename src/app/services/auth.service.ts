@@ -26,6 +26,7 @@ export class AuthService {
           if (!environment.production) console.log('Response', response);
           sessionStorage.setItem('jwt', response.token);
           sessionStorage.setItem('role', response.role);
+          sessionStorage.setItem('userName', response.userName);
           return response;
         }),
         catchError((error: HttpErrorResponse) => {
@@ -48,6 +49,11 @@ export class AuthService {
     return sessionStorage.getItem('role');
   }
 
+  getUserName(): string {
+    let resp = sessionStorage.getItem('userName');
+    return resp ? resp : '';
+  }
+
   isAuthenticated() {
     return this.getRole() !== null;
   }
@@ -55,5 +61,6 @@ export class AuthService {
   logout() {
     sessionStorage.removeItem('jwt');
     sessionStorage.removeItem('role');
+    sessionStorage.removeItem('userName');
   }
 }

@@ -1,91 +1,157 @@
+<p-toast></p-toast>
+
 <div class="flex flex-wrap p-4">
-  <!-- Sección 1 -->
+  <!-- Sección Datos de Lead -->
   <div class="w-full md:w-1/2 p-2">
-    <form [formGroup]="seccion1Form" (ngSubmit)="guardarSeccion1()" class="bg-white p-6 rounded-lg shadow-md">
-      <h2 class="text-xl font-bold mb-4">Información Personal</h2>
-      <div class="mb-4">
-        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
-        <input id="nombre" formControlName="nombre" pInputText class="w-full p-2 border rounded">
-        <small *ngIf="seccion1Form.get('nombre')?.invalid && seccion1Form.get('nombre')?.touched" class="text-red-500">
-          Nombre es requerido
-        </small>
+    <form class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-bold mb-4">Información del prospecto</h2>
+      <div class="grid grid-cols-2 gap-4">
+
+        <!-- Nombre -->
+        <div class="col-span-1">
+          <label class="block text-sm font-medium text-gray-700">Nombre</label>
+          <p class="mt-1 p-2 bg-gray-100 rounded">{{ prospect.fullName }}</p>
+        </div>
+
+        <!-- Email -->
+        <div class="col-span-1">
+          <label class="block text-sm font-medium text-gray-700">Email</label>
+          <p class="mt-1 p-2 bg-gray-100 rounded">{{ prospect.emails.length > 0 ? prospect.emails[0].address : ' ' }}
+          </p>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="col-span-1">
+          <label class="block text-sm font-medium text-gray-700">Teléfono</label>
+          <p class="mt-1 p-2 bg-gray-100 rounded">{{ prospect.phones.length > 0 ? prospect.phones[0].phoneNumber :
+            ' '}}
+          </p>
+        </div>
+
+        <!-- Empresa -->
+        <div class="col-span-1">
+          <label class="block text-sm font-medium text-gray-700">Empresa</label>
+          <p class="mt-1 p-2 bg-gray-100 rounded">{{ prospect.company.name }}</p>
+        </div>
+
+        <!-- Cargo -->
+        <div class="col-span-1">
+          <label class="block text-sm font-medium text-gray-700">Cargo</label>
+          <p class="mt-1 p-2 bg-gray-100 rounded">{{ prospect.position }}</p>
+        </div>
+
+        <!-- LinkedIn -->
+        <div class="col-span-1">
+          <label class="block text-sm font-medium text-gray-700">LinkedIn</label>
+          <p class="mt-1 p-2 bg-gray-100 rounded">{{ prospect.socialNetworks.length > 0 ? prospect.socialNetworks[0].url
+            : ' ' }}</p>
+        </div>
+
+        <!-- Tamaño de Empresa -->
+        <div class="col-span-1">
+          <label class="block text-sm font-medium text-gray-700">Tamaño de Empresa</label>
+          <p class="mt-1 p-2 bg-gray-100 rounded">{{ prospect.company.size }}</p>
+        </div>
+
+        <div class="col-span-1">
+          <button type="submit" pButton label="Actualizar" class="w-full bg-blue-500 text-white p-2 rounded"></button>
+        </div>
       </div>
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input id="email" formControlName="email" pInputText class="w-full p-2 border rounded">
-        <small *ngIf="seccion1Form.get('email')?.invalid && seccion1Form.get('email')?.touched" class="text-red-500">
-          Email es requerido y debe ser válido
-        </small>
-      </div>
-      <div class="mb-4">
-        <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
-        <input id="telefono" formControlName="telefono" pInputText class="w-full p-2 border rounded">
-        <small *ngIf="seccion1Form.get('telefono')?.invalid && seccion1Form.get('telefono')?.touched"
-          class="text-red-500">
-          Teléfono es requerido
-        </small>
-      </div>
-      <div class="mb-4">
-        <label for="empresa" class="block text-sm font-medium text-gray-700">Empresa</label>
-        <input id="empresa" formControlName="empresa" pInputText class="w-full p-2 border rounded">
-        <small *ngIf="seccion1Form.get('empresa')?.invalid && seccion1Form.get('empresa')?.touched"
-          class="text-red-500">
-          Empresa es requerida
-        </small>
-      </div>
-      <div class="mb-4">
-        <label for="cargo" class="block text-sm font-medium text-gray-700">Cargo</label>
-        <input id="cargo" formControlName="cargo" pInputText class="w-full p-2 border rounded">
-        <small *ngIf="seccion1Form.get('cargo')?.invalid && seccion1Form.get('cargo')?.touched" class="text-red-500">
-          Cargo es requerido
-        </small>
-      </div>
-      <div class="mb-4">
-        <label for="linkedin" class="block text-sm font-medium text-gray-700">LinkedIn</label>
-        <input id="linkedin" formControlName="linkedin" pInputText class="w-full p-2 border rounded">
-      </div>
-      <div class="mb-4">
-        <label for="tamanoEmpresa" class="block text-sm font-medium text-gray-700">Tamaño de Empresa</label>
-        <input id="tamanoEmpresa" formControlName="tamanoEmpresa" pInputText class="w-full p-2 border rounded">
-        <small *ngIf="seccion1Form.get('tamanoEmpresa')?.invalid && seccion1Form.get('tamanoEmpresa')?.touched"
-          class="text-red-500">
-          Tamaño de empresa es requerido
-        </small>
-      </div>
-      <button type="submit" pButton label="Guardar" class="w-full bg-blue-500 text-white p-2 rounded"></button>
     </form>
   </div>
 
-  <!-- Sección 2 -->
+  <!-- Sección interaccion  -->
   <div class="w-full md:w-1/2 p-2">
-    <form [formGroup]="seccion2Form" (ngSubmit)="guardarSeccion2()" class="bg-white p-6 rounded-lg shadow-md">
-      <h2 class="text-xl font-bold mb-4">Historial de Contacto</h2>
-      <div class="mb-4">
-        <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha</label>
-        <p-calendar id="fecha" formControlName="fecha" [showIcon]="true" class="w-full"></p-calendar>
-        <small *ngIf="seccion2Form.get('fecha')?.invalid && seccion2Form.get('fecha')?.touched" class="text-red-500">
-          Fecha es requerida
-        </small>
+    <form [formGroup]="formInteraction" (ngSubmit)="saveInteraction()" class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-bold mb-4">Ingreso nueva interacción</h2>
+
+      <!-- Fecha -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="col-span-1 flex items-center">
+          <label for="fecha" class="text-sm font-medium text-gray-700">Fecha</label>
+        </div>
+        <div class="col-span-1">
+          <p-calendar id="fecha" formControlName="fecha" [showIcon]="true" styleClass="w-full"
+            [ngClass]="{ 'ng-invalid ng-dirty': formInteraction.get('fecha')?.invalid && formInteraction.get('fecha')?.touched }">
+          </p-calendar>
+          <small *ngIf="formInteraction.get('fecha')?.invalid && formInteraction.get('fecha')?.touched"
+            class="text-red-500">
+            Fecha es requerida
+          </small>
+        </div>
+
+        <!-- Tipo de Contacto -->
+        <div class="col-span-1 flex items-center">
+          <label for="tipoContacto" class="text-sm font-medium text-gray-700">Tipo de Contacto</label>
+        </div>
+        <div class="col-span-1">
+          <p-dropdown id="tipoContacto" formControlName="tipoContacto" [options]="['Email', 'Teléfono']" class="w-full"
+            [ngClass]="{ 'ng-invalid ng-dirty': formInteraction.get('tipoContacto')?.invalid && formInteraction.get('tipoContacto')?.touched }">
+          </p-dropdown>
+          <small *ngIf="formInteraction.get('tipoContacto')?.invalid && formInteraction.get('tipoContacto')?.touched"
+            class="text-red-500">
+            Tipo de contacto es requerido
+          </small>
+        </div>
+
+        <!-- Notas -->
+        <div class="col-span-1 flex items-center">
+          <label for="notas" class="text-sm font-medium text-gray-700">Notas</label>
+        </div>
+        <div class="col-span-1">
+          <textarea id="notas" formControlName="notas" pInputTextarea class="w-full p-2 border rounded"
+            [ngClass]="{ 'ng-invalid ng-dirty': formInteraction.get('notas')?.invalid && formInteraction.get('notas')?.touched }">
+        </textarea>
+          <small *ngIf="formInteraction.get('notas')?.invalid && formInteraction.get('notas')?.touched"
+            class="text-red-500">
+            Notas es requerido
+          </small>
+        </div>
+
+        <!-- Contestó -->
+        <div class="col-span-1 flex items-center">
+          <label for="contesto" class="text-sm font-medium text-gray-700">Contesta?</label>
+        </div>
+        <div class="col-span-1">
+          <p-checkbox id="contesto" formControlName="contesto" label="" [binary]="true"></p-checkbox>
+        </div>
       </div>
-      <div class="mb-4">
-        <label for="tipoContacto" class="block text-sm font-medium text-gray-700">Tipo de Contacto</label>
-        <p-dropdown id="tipoContacto" formControlName="tipoContacto" [options]="['Email', 'Teléfono']"
-          class="w-full"></p-dropdown>
-        <small *ngIf="seccion2Form.get('tipoContacto')?.invalid && seccion2Form.get('tipoContacto')?.touched"
-          class="text-red-500">
-          Tipo de contacto es requerido
-        </small>
+
+      <!-- Botones -->
+      <div class="mt-4">
+        <button type="submit" pButton label="Guardar" class="w-full bg-blue-500 text-white p-2 rounded"></button>
+        <button type="button" pButton label="Limpiar" (click)="limpiarInteraction()"
+          class="w-full bg-gray-500 text-white p-2 rounded mt-2"></button>
       </div>
-      <div class="mb-4">
-        <label for="notas" class="block text-sm font-medium text-gray-700">Notas</label>
-        <textarea id="notas" formControlName="notas" pInputTextarea class="w-full p-2 border rounded"></textarea>
-      </div>
-      <div class="mb-4">
-        <p-checkbox id="contesto" formControlName="contesto" label="Contestó">Contestó?</p-checkbox>
-      </div>
-      <button type="submit" pButton label="Guardar" class="w-full bg-blue-500 text-white p-2 rounded"></button>
-      <button type="button" pButton label="Limpiar" (click)="limpiarSeccion2()"
-        class="w-full bg-gray-500 text-white p-2 rounded mt-2"></button>
     </form>
+  </div>
+
+  <!-- Tabla -->
+  <div class="w-full overflow-auto p-2">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold">Historia de interacciones</h2>
+      <button pButton type="button" label="Volver" class="p-button-primary" [routerLink]="'/executive'"></button>
+    </div>
+    <p-table [value]="prospect.interactions" [paginator]="true" [rows]="5" [sortField]="'date'" [sortOrder]="-1"
+      [sortMode]="'single'" [resizableColumns]="true" [scrollable]="true" scrollHeight="400px">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon></th>
+          <th pSortableColumn="notes">Notes <p-sortIcon field="notes"></p-sortIcon></th>
+          <th pSortableColumn="answer">Answer <p-sortIcon field="answer"></p-sortIcon></th>
+          <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-interaction>
+        <tr>
+          <td>{{ interaction.type }}</td>
+          <td>{{ interaction.notes }}</td>
+          <td>
+            <p-checkbox [binary]="true" [ngModel]="interaction.answer" disabled="true"></p-checkbox>
+          </td>
+          <td>{{ interaction.date | date: 'dd-MM-YYYY HH:mm' }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
 </div>

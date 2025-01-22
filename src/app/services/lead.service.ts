@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import { Prospect } from '../models/api-response';
+import { Interaction, Prospect } from '../models/api-response';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 
@@ -14,41 +14,61 @@ export class LeadService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getProspects(): Observable<Prospect[]> {
-    return this.http.get<Prospect[]>(`${this.apiUrl}/Lead/prospects`).pipe(
+    return this.http.get<Prospect[]>(`${this.apiUrl}/Lead/listLeads`).pipe(
       map((response) => {
+        if (!environment.production) console.log('Response', response);
         response.forEach((e) => {
+          e.phones = e.phones ? e.phones : [];
+          e.interactions = e.interactions ? e.interactions : [];
+          e.emails = e.emails ? e.emails : [];
           e.lastInteraction = e.interactions
             ? e.interactions[e.interactions.length - 1]
             : null;
         });
-        if (!environment.production) console.log('Response', response);
         return response;
       })
     );
   }
 
-  getProspectsCount(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/Lead/prospects/count`).pipe(
-      map((response) => {
-        console.log('Total', response);
-        return response;
+  getProspect(id: string): Observable<Prospect> {
+    return this.http.get<Prospect>(`${this.apiUrl}/Lead/${id}`).pipe(
+      map((resp) => {
+        if (!environment.production) console.log('Response', resp);
+
+        resp.phones = resp.phones ? resp.phones : [];
+        resp.interactions = resp.interactions ? resp.interactions : [];
+        resp.emails = resp.emails ? resp.emails : [];
+        resp.lastInteraction = resp.interactions
+          ? resp.interactions[resp.interactions.length - 1]
+          : null;
+
+        return resp;
       })
     );
+  }
+
+  addInteraction(interaction: Interaction): Observable<Prospect> {
+    return this.http
+      .post<Prospect>(`${this.apiUrl}/Lead/addInteraction`, interaction)
+      .pipe(
+        map((response) => {
+          if (!environment.production) console.log('Response', response);
+          return response;
+        })
+      );
   }
 
   uploadFile(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file, file.name);
-    return this.http
-      .post(`${this.apiUrl}/Lead/load-file-prospect`, formData)
-      .pipe(
-        map((response) => {
-          if (response === null) {
-            throw new Error('error');
-          }
-          if (!environment.production) console.log('Response', response);
-          return response;
-        })
-      );
+    return this.http.post(`${this.apiUrl}/Lead/verifysavefile`, formData).pipe(
+      map((response) => {
+        if (response === null) {
+          throw new Error('error');
+        }
+        if (!environment.production) console.log('Response', response);
+        return response;
+      })
+    );
   }
 }

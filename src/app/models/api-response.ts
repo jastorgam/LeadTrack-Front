@@ -1,11 +1,10 @@
 export interface LoginResponse {
   token: string;
   role: string;
-  userName: null;
+  userName: string;
 }
 
 export interface Prospect {
-  lastInteraction: Interaction | null;
   id: string;
   name: string;
   lastName: string;
@@ -15,6 +14,7 @@ export interface Prospect {
   emails: Email[];
   socialNetworks: SocialNetwork[];
   interactions: Interaction[];
+  lastInteraction: Interaction | null;
   company: Company;
   status: boolean;
   dateModify: Date;
@@ -48,6 +48,7 @@ export interface SocialNetwork {
 }
 
 export interface Interaction {
+  prospectId: string;
   userName: string;
   type: string;
   notes: string;
