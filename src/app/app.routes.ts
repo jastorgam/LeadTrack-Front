@@ -9,6 +9,7 @@ import { Routes } from '@angular/router';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { NotLoggedComponent } from './pages/not-logged/not-logged.component';
 import { ReportComponent } from './pages/report/report.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -49,4 +50,5 @@ export const routes: Routes = [
       },
     ],
   },
+  { path: '**', component: NotFoundComponent },
 ];
