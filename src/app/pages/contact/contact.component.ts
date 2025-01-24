@@ -1,4 +1,4 @@
-import { Interaction } from './../../models/api-response';
+import { Interaction } from '../../models/api.model';
 import { afterNextRender, Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -14,7 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { Prospect } from '../../models/api-response';
+import { Prospect } from '../../models/api.model';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { LeadService } from '../../services/lead.service';
@@ -132,6 +132,8 @@ export class ContactComponent implements OnInit {
       prospectId: this.prospect.id,
       type: this.formInteraction.get('tipoContacto')?.value,
     };
+
+    inter.type = inter.type === 'Email' ? 'Email' : 'Call';
 
     this.leadService.addInteraction(inter).subscribe({
       next: (data: Prospect) => {

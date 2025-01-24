@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
-import { Prospect } from '../../models/api-response';
+import { Prospect } from '../../models/api.model';
 import { LeadService } from '../../services/lead.service';
 import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';

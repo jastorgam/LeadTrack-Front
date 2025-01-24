@@ -1,9 +1,3 @@
-export interface LoginResponse {
-  token: string;
-  role: string;
-  userName: string;
-}
-
 export interface Prospect {
   id: string;
   name: string;
