@@ -1,5 +1,12 @@
 import { Interaction } from '../../models/api.model';
-import { afterNextRender, Component, OnInit } from '@angular/core';
+import {
+  afterNextRender,
+  AfterViewInit,
+  Component,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,13 +20,22 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  NavigationEnd,
+  Resolve,
+  Router,
+  RouterModule,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { Prospect } from '../../models/api.model';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { LeadService } from '../../services/lead.service';
 import { AuthService } from '../../services/auth.service';
 import { TableModule } from 'primeng/table';
+import { MessageHelperService } from '../../services/message-helper.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-contact',
@@ -39,25 +55,29 @@ import { TableModule } from 'primeng/table';
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css',
 })
-export class ContactComponent implements OnInit {
+export class ContactComponent implements OnInit, AfterViewInit {
   formProspect!: FormGroup;
   formInteraction!: FormGroup;
   data!: Prospect;
   prospect!: Prospect;
+  mjs: any;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private messageService: MessageService,
     private leadService: LeadService,
-    private authService: AuthService
+    private authService: AuthService,
+    private msjHelper: MessageHelperService
   ) {
     this.getStateData();
   }
 
-  ngOnInit(): void {
-    // this.getStateData();
+  ngAfterViewInit(): void {
+    this.messageService.addAll(this.msjHelper.get());
   }
+
+  ngOnInit(): void {}
 
   private fillForms() {
     this.formProspect = this.fb.group({
@@ -82,29 +102,16 @@ export class ContactComponent implements OnInit {
   }
 
   getStateData(): void {
-    // Recupera los datos del state
     const navigation = this.router.getCurrentNavigation();
     if (navigation && navigation.extras && navigation.extras.state) {
       this.data = navigation.extras.state['data'];
       this.prospect = this.data;
-      console.log('Datos recibidos:', this.data);
+      console.log('Datos recibidos:', new Date(), this.data);
 
-      this.leadService.getProspect(this.data.id).subscribe({
-        next: (data: Prospect) => {
-          this.prospect = data;
-          this.fillForms();
-        },
-      });
+      this.fillForms();
     } else {
       console.log('No hay datos en el state.');
-
       this.router.navigate(['executive']);
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Errro al recibir datos',
-        life: 3000,
-      });
     }
   }
 
@@ -144,7 +151,7 @@ export class ContactComponent implements OnInit {
               this.messageService.add({
                 severity: 'info',
                 summary: 'Información',
-                detail: 'Datos guardados',
+                detail: 'Datos Actualizados',
                 life: 3000,
               });
               this.limpiarInteraction();
@@ -164,7 +171,7 @@ export class ContactComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Error al guardar intercción',
+          detail: 'Error al guardar modificaciones',
           life: 3000,
         });
       },
@@ -176,6 +183,10 @@ export class ContactComponent implements OnInit {
 
   limpiarInteraction() {
     this.formInteraction.reset();
-    this.formInteraction.get('date')?.setValue(new Date());
+    this.formInteraction.get('fecha')?.setValue(new Date());
+  }
+
+  modificar() {
+    this.router.navigate(['editlead'], { state: { data: this.prospect } });
   }
 }

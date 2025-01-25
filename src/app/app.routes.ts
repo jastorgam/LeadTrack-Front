@@ -10,6 +10,7 @@ import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.compone
 import { NotLoggedComponent } from './pages/not-logged/not-logged.component';
 import { ReportComponent } from './pages/report/report.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { EditleadComponent } from './pages/editlead/editlead.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -45,6 +46,12 @@ export const routes: Routes = [
       {
         path: 'contact',
         component: ContactComponent,
+        canActivate: [AuthGuard],
+        data: { role: 'executive' },
+      },
+      {
+        path: 'editlead',
+        component: EditleadComponent,
         canActivate: [AuthGuard],
         data: { role: 'executive' },
       },

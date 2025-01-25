@@ -12,13 +12,22 @@
       <p class="text-xl text-blue-600">{{ report.totalProspects }}</p>
     </div>
     <div class="p-4 bg-white shadow rounded-3xl">
-      <h2 class="text-lg font-semibold">Interacciones Totales</h2>
-      <p class="text-xl text-blue-600">{{ report.totalInteractions }}</p>
+      <h2 class="text-lg font-semibold">Prospectos contactados</h2>
+      <p class="text-xl text-blue-600">{{ report.totalProspectContactedTrue }}</p>
     </div>
     <div class="p-4 bg-white shadow rounded-3xl">
+      <h2 class="text-lg font-semibold">No han contestado </h2>
+      <p class="text-xl text-blue-600">{{ report.totalProspectContacted - report.totalProspectContactedTrue }}</p>
+    </div>
+    <div class="p-4 bg-white shadow rounded-3xl">
+      <h2 class="text-lg font-semibold">Interacciones Totales</h2>
+      <p class="text-xl text-blue-600">{{ report.totalInteractions }} en {{ report.totalProspectContacted }} prospectos
+      </p>
+    </div>
+    <!-- <div class="p-4 bg-white shadow rounded-3xl">
       <h2 class="text-lg font-semibold">Interacciones por Prospecto</h2>
       <p class="text-xl text-blue-600">{{ interactionsPerProspect | number: '1.2-2' }}</p>
-    </div>
+    </div> -->
     <div class="p-4 bg-white shadow rounded-3xl">
       <h2 class="text-lg font-semibold">Tasa de Contacto</h2>
       <p class="text-xl text-blue-600">{{ contactRate | number: '1.2-2' }}%</p>
@@ -27,6 +36,8 @@
       <h2 class="text-lg font-semibold">Tasa de Respuesta</h2>
       <p class="text-xl text-blue-600">{{ responseRate | number: '1.2-2' }}%</p>
     </div>
+    <div class="p-4"></div>
+
     <div class="p-4 bg-white shadow rounded-3xl">
       <h2 class="text-lg font-semibold">Porcentaje de Interacciones Efectivas</h2>
       <p class="text-xl text-green-600">{{ effectiveInteractionRate | number: '1.2-2' }}%</p>

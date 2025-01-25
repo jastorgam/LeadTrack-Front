@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Interaction, Prospect } from '../models/api.model';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { AuthService } from './auth.service';
 import { LeadReport } from '../models/report.model';
+import { UpdateProspect } from '../models/update.model';
 
 @Injectable({
   providedIn: 'root',
@@ -66,6 +67,14 @@ export class LeadService {
           return resp;
         })
       );
+  }
+
+  updateProspect(prospect: UpdateProspect): Observable<Prospect> {
+    return this.http.put<Prospect>(
+      `${this.apiUrl}/Lead`,
+      prospect,
+      this.getHttpOptions()
+    );
   }
 
   addInteraction(interaction: Interaction): Observable<Prospect> {

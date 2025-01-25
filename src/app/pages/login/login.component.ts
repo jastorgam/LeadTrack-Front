@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Message, MessageModule } from 'primeng/message';
 import {
   FormBuilder,
@@ -17,6 +17,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ConfirmDialog, ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +30,7 @@ import { AuthService } from '../../services/auth.service';
     ReactiveFormsModule,
     ToastModule,
     MessageModule,
+    ConfirmDialogModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -41,7 +43,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -83,8 +86,23 @@ export class LoginComponent implements OnInit {
           else this.router.navigate(['executive']);
         },
         error: (error) => {
+          if (!environment.production) console.log(error);
           this.errorMsg = 'Usuario o password incorrectas';
         },
       });
+  }
+
+  olvido() {
+    this.confirmationService.confirm({
+      header: 'Información',
+      message: `Favor solicitar contraseña al administrador del sistema.<br/>admin@leadtrack.cl`,
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-exclamation-triangle',
+      rejectVisible: false,
+      acceptButtonProps: {
+        label: 'OK',
+      },
+    });
   }
 }

@@ -4,10 +4,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 import Aura from '@primeng/themes/aura';
 import Nora from '@primeng/themes/nora';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { AuthService } from './services/auth.service';
+import { MessageHelperService } from './services/message-helper.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,5 +27,7 @@ export const appConfig: ApplicationConfig = {
     }),
     MessageService,
     AuthService,
+    ConfirmationService,
+    MessageHelperService,
   ],
 };

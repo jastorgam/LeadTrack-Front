@@ -23,15 +23,15 @@ import { DecimalPipe } from '@angular/common';
 export class ReportComponent implements OnInit {
   report!: LeadReport;
 
-  constructor(private leadService: LeadService) {}
-
-  ngOnInit(): void {
+  constructor(private leadService: LeadService) {
     this.leadService.getReport().subscribe({
       next: (data: LeadReport) => {
         this.report = data;
       },
     });
   }
+
+  ngOnInit(): void {}
 
   get contactRate(): number {
     return (
@@ -52,11 +52,10 @@ export class ReportComponent implements OnInit {
   }
 
   get effectiveInteractionRate(): number {
-    const totalEffectiveInteractions =
-      this.report.totalInteractionsByPhoneTrue +
-      this.report.totalInteractionsByEmailTrue;
     return (
-      (totalEffectiveInteractions / this.report.totalInteractions) * 100 || 0
+      (this.report.totalProspectContactedTrue /
+        this.report.totalProspectContacted) *
+        100 || 0
     );
   }
 }

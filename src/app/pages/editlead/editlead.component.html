@@ -1,0 +1,102 @@
+<p-toast></p-toast>
+<p-confirmdialog />
+<div class="w-full p-2 mx-auto">
+  <form [formGroup]="prospectForm" (ngSubmit)="onSubmit()" class="bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-xl font-bold mb-4">Editar Información del Prospecto</h2>
+    <div class="grid grid-cols-4 gap-4">
+
+      <!-- Nombre -->
+      <div class="col-span-1">
+        <label class="block text-sm font-medium text-gray-700">Nombre</label>
+        <input type="text" formControlName="name"
+          class="mt-1 p-2 border rounded w-full focus:outline-none focus:ring focus:border-blue-300"
+          [ngClass]="{ 'border-red-500': isInvalid('fullName') }" />
+        <small *ngIf="isInvalid('name')" class="text-red-500">El nombre es obligatorio.</small>
+      </div>
+      <div class="col-span-1">
+        <label class="block text-sm font-medium text-gray-700">Apellido</label>
+        <input type="text" formControlName="lastName"
+          class="mt-1 p-2 border rounded w-full focus:outline-none focus:ring focus:border-blue-300"
+          [ngClass]="{ 'border-red-500': isInvalid('fullName') }" />
+        <small *ngIf="isInvalid('fullName')" class="text-red-500">El nombre es obligatorio.</small>
+      </div>
+
+      <!-- Email -->
+      <div class="col-span-2">
+        <label class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" formControlName="email"
+          class="mt-1 p-2 border rounded w-full focus:outline-none focus:ring focus:border-blue-300"
+          [ngClass]="{ 'border-red-500': isInvalid('email') }" />
+        <small *ngIf="hasError('email','required')" class="text-red-500">
+          El email es obligatorio.
+        </small>
+        <small *ngIf="hasError('email','email')" class="text-red-500">
+          Ingrese un email válido.
+        </small>
+      </div>
+
+      <!-- Teléfono -->
+      <div class="col-span-1">
+        <label class="block text-sm font-medium text-gray-700">Celular</label>
+        <input type="text" formControlName="phone"
+          class="mt-1 p-2 border rounded w-full focus:outline-none focus:ring focus:border-blue-300"
+          [ngClass]="{ 'border-red-500': isInvalid('phone') }" />
+        <small *ngIf="hasError('phone','required')" class="text-red-500">
+          El celular es obligatorio.
+        </small>
+        <small *ngIf="hasError('phone','pattern')" class="text-red-500">
+          Ingrese un celular válido (56912345678).
+        </small>
+      </div>
+      <!-- Cargo -->
+      <div class="col-span-1">
+        <label class="block text-sm font-medium text-gray-700">Cargo</label>
+        <input type="text" formControlName="position"
+          class="mt-1 p-2 border rounded w-full focus:outline-none focus:ring focus:border-blue-300" />
+      </div>
+
+      <!-- Empresa -->
+      <div class="col-span-2">
+        <label class="block text-sm font-medium text-gray-700">Empresa</label>
+        <input type="text" formControlName="companyName"
+          class="mt-1 p-2 border rounded w-full focus:outline-none focus:ring focus:border-blue-300"
+          [ngClass]="{ 'border-red-500': isInvalid('companyName') }" />
+        <small *ngIf="isInvalid('companyName')" class="text-red-500">El nombre de la empresa es obligatorio.</small>
+      </div>
+
+
+
+      <!-- LinkedIn -->
+      <div class="col-span-2">
+        <label class="block text-sm font-medium text-gray-700">LinkedIn</label>
+        <input type="url" formControlName="linkedin"
+          class="mt-1 p-2 border rounded w-full focus:outline-none focus:ring focus:border-blue-300"
+          [ngClass]="{ 'border-red-500': isInvalid('linkedin') }" />
+        <small *ngIf="hasError('linkedin','required')" class="text-red-500">
+          El enlace de LinkedIn es obligatorio.
+        </small>
+        <small *ngIf="hasError('linkedin','pattern')" class="text-red-500">
+          Ingrese una URL válida de LinkedIn.
+        </small>
+      </div>
+
+      <!-- Tamaño de Empresa -->
+      <div class="col-span-2">
+        <label class="block text-sm font-medium text-gray-700">Tamaño de Empresa</label>
+        <input type="text" formControlName="companySize"
+          class="mt-1 p-2 border rounded w-full focus:outline-none focus:ring focus:border-blue-300" />
+      </div>
+
+      <!-- Botones -->
+
+      <div class="col-span-2">
+        <button type="submit" pButton label="Guardar"
+          class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600" [disabled]="!prospectForm.valid"></button>
+      </div>
+      <div class="col-span-2">
+        <button type="button" pButton label="Volver" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          (click)="volver()"></button>
+      </div>
+    </div>
+  </form>
+</div>
