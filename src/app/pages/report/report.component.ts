@@ -35,7 +35,7 @@ export class ReportComponent implements OnInit {
 
   get contactRate(): number {
     return (
-      (this.report.totalProspectContacted / this.report.totalProspects) * 100
+      (this.report.totalProspectContactedTrue / this.report.totalProspects) * 100
     );
   }
 
