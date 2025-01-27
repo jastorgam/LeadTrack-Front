@@ -1,15 +1,11 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpEventType,
-  HttpHeaders,
-  HttpParams,
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import { Prospect } from '../models/api-response';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Interaction, Prospect } from '../models/api.model';
+import { Observable, map } from 'rxjs';
 import { AuthService } from './auth.service';
+import { LeadReport } from '../models/report.model';
+import { UpdateProspect } from '../models/update.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,32 +15,78 @@ export class LeadService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getProspects(page: number, pageSize: number): Observable<Prospect[]> {
-    console.log(`lazy page=${page}, pageSize=${pageSize}`);
-    const params = new HttpParams()
-      .set('page', page.toString())
-      .set('pageSize', pageSize.toString());
+  private getHttpOptions() {
+    const token = this.authService.getToken();
+    return {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  }
 
+  getReport(): Observable<LeadReport> {
+    return this.http.get<LeadReport>(
+      `${this.apiUrl}/Lead/getReport`,
+      this.getHttpOptions()
+    );
+  }
+
+  getProspects(): Observable<Prospect[]> {
     return this.http
-      .get<Prospect[]>(`${this.apiUrl}/Lead/get-prospects`, { params })
+      .get<Prospect[]>(`${this.apiUrl}/Lead/listLeads`, this.getHttpOptions())
       .pipe(
         map((response) => {
-          if (response === null) {
-            throw new Error('Error');
-          }
-          response.forEach((e) => (e.fullName = `${e.name} ${e.lastName}`));
           if (!environment.production) console.log('Response', response);
+          response.forEach((e) => {
+            e.phones = e.phones ? e.phones : [];
+            e.interactions = e.interactions ? e.interactions : [];
+            e.emails = e.emails ? e.emails : [];
+            e.lastInteraction = e.interactions
+              ? e.interactions[e.interactions.length - 1]
+              : null;
+          });
           return response;
         })
       );
   }
 
-  getProspectsCount(): Observable<number> {
+  getProspect(id: string): Observable<Prospect> {
     return this.http
-      .get<number>(`${this.apiUrl}/Lead/get-prospects/count`)
+      .get<Prospect>(`${this.apiUrl}/Lead/${id}`, this.getHttpOptions())
+      .pipe(
+        map((resp) => {
+          if (!environment.production) console.log('Response', resp);
+
+          resp.phones = resp.phones ? resp.phones : [];
+          resp.interactions = resp.interactions ? resp.interactions : [];
+          resp.emails = resp.emails ? resp.emails : [];
+          resp.lastInteraction = resp.interactions
+            ? resp.interactions[resp.interactions.length - 1]
+            : null;
+
+          return resp;
+        })
+      );
+  }
+
+  updateProspect(prospect: UpdateProspect): Observable<Prospect> {
+    return this.http.put<Prospect>(
+      `${this.apiUrl}/Lead`,
+      prospect,
+      this.getHttpOptions()
+    );
+  }
+
+  addInteraction(interaction: Interaction): Observable<Prospect> {
+    return this.http
+      .post<Prospect>(
+        `${this.apiUrl}/Lead/addInteraction`,
+        interaction,
+        this.getHttpOptions()
+      )
       .pipe(
         map((response) => {
-          console.log('Total', response);
+          if (!environment.production) console.log('Response', response);
           return response;
         })
       );
@@ -54,7 +96,11 @@ export class LeadService {
     const formData = new FormData();
     formData.append('file', file, file.name);
     return this.http
-      .post(`${this.apiUrl}/Lead/load-file-prospect`, formData)
+      .post(
+        `${this.apiUrl}/Lead/verifysavefile`,
+        formData,
+        this.getHttpOptions()
+      )
       .pipe(
         map((response) => {
           if (response === null) {

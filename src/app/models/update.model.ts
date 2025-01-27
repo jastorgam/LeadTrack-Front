@@ -1,25 +1,18 @@
-export interface LoginResponse {
-  token: string;
-  role: string;
-  userName: null;
-}
-
-export interface Prospect {
-  fullName: string;
+export interface UpdateProspect {
   id: string;
   name: string;
   lastName: string;
+  fullName: string;
   position: string;
   phones: Phone[];
   emails: Email[];
   socialNetworks: SocialNetwork[];
   company: Company;
-  lastInteraction: LastInteraction;
-  status: boolean;
+  dateModify: Date;
+  userModify: string;
 }
 
 export interface Company {
-  id: string;
   name: string;
   address: string;
   domain: string;
@@ -32,16 +25,6 @@ export interface Email {
   address: string;
   type: string;
   valid: boolean;
-}
-
-export interface LastInteraction {
-  id: string;
-  prospectId: string;
-  userName: null;
-  type: string;
-  notes: string;
-  answer: boolean;
-  date: Date;
 }
 
 export interface Phone {

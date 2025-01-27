@@ -31,11 +31,13 @@ export class AdminComponent {
   ) {}
 
   onFileSelect(event: any) {
+    this.uploadStatus = '';
     this.selectedFile = event.files[0];
   }
 
   onUpload() {
     if (this.selectedFile) {
+      this.uploadStatus = '';
       this.loading = true;
       this.leadService.uploadFile(this.selectedFile).subscribe({
         next: (event: []) => {
@@ -45,11 +47,26 @@ export class AdminComponent {
         error: (err) => {
           this.loading = false;
           this.uploadStatus = 'Error al cargar el archivo.';
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error al cargar el archivo.',
+            life: 3000,
+          });
+
           console.error(err);
         },
         complete: () => {
           this.loading = false;
         },
+      });
+    } else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'Debe seleccionar un archivo',
+        life: 3000,
       });
     }
   }

@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { LoginResponse } from '../models/api-response';
+import { LoginResponse } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,8 +24,9 @@ export class AuthService {
           }
           response.role = response.role.toLowerCase();
           if (!environment.production) console.log('Response', response);
-          sessionStorage.setItem('jwt', response.token);
+          sessionStorage.setItem('jwtToken', response.token);
           sessionStorage.setItem('role', response.role);
+          sessionStorage.setItem('userName', response.userName);
           return response;
         }),
         catchError((error: HttpErrorResponse) => {
@@ -41,11 +42,16 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return sessionStorage.getItem('jwt');
+    return sessionStorage.getItem('jwtToken');
   }
 
   getRole(): string | null {
     return sessionStorage.getItem('role');
+  }
+
+  getUserName(): string {
+    let resp = sessionStorage.getItem('userName');
+    return resp ? resp : '';
   }
 
   isAuthenticated() {
@@ -53,7 +59,8 @@ export class AuthService {
   }
 
   logout() {
-    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('jwtToken');
     sessionStorage.removeItem('role');
+    sessionStorage.removeItem('userName');
   }
 }
